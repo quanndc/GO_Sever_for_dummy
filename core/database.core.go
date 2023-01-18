@@ -17,7 +17,23 @@ func NewDatabase() (*Database, error) {
 		panic("failed to connect database")
 	}
 
+	// db.AutoMigrate(&models.Task{})
+
+	// db.Create(&models.Task{
+
+	// 	Title:       "Task 1",
+	// 	Description: "Description 1",
+	// 	Status:      "Done",
+	// })
+
 	return &Database{
 		Db: db,
 	}, nil
 }
+
+// func NewTask(	) {
+// 	db, _ := sql.Open("sqlite", "./test.db")
+// 	statement, _ := db.Prepare(create)
+// 	statement.Exec()
+
+// }

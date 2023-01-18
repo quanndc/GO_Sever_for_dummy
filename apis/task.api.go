@@ -11,10 +11,6 @@ import (
 	"itss.edu.vn/todo/services/models"
 )
 
-func toString(t uint) string {
-	return fmt.Sprintf("%b", t)
-}
-
 func NewTaskApis(endpoint string, server *core.Server) *echo.Group {
 	apis := server.Echo.Group(endpoint)
 
@@ -22,7 +18,7 @@ func NewTaskApis(endpoint string, server *core.Server) *echo.Group {
 
 	apis.POST("/", func(c echo.Context) error {
 		task := &models.Task{}
-
+		db, _ := core.NewDatabase()
 		if err := c.Bind(task); err != nil {
 			return echo.ErrBadRequest
 		}
@@ -43,6 +39,7 @@ func NewTaskApis(endpoint string, server *core.Server) *echo.Group {
 
 		fmt.Fprintln(c.Response().Writer, task.ID)
 		tasks = append(tasks, task)
+		db.Db.Create(task)
 		return c.NoContent(http.StatusCreated)
 	})
 
